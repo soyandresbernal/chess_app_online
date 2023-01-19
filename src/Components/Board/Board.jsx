@@ -14,14 +14,27 @@ const Board = () => {
 
   return (
     <div className='Board-Wrapper'>
-      <h1 className='text-3xl font-bold underline'>
-        chess Tactic
+      <h1 className='text-3xl relative w-full h-full'>
+        Chess Tactic
       </h1>
       <canvas
         ref={canvasRef}
         width={width}
         height={height}
+        className='absolute w-full h-full grid grid-cols-8 grid-rows-8'
       ></canvas>
+      <div className='absolute w-full h-full grid grid-cols-8 grid-rows-8'>
+        {[...Array(64)].map((_, i) => (
+          <div
+            key={i}
+            className={`col-span-1 row-span-1 ${
+              (i + Math.floor(i / 8)) % 2 === 0
+                ? 'bg-white'
+                : 'bg-black'
+            }`}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 };
