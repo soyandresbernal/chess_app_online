@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useDrawCanvas from './DrawCanvas';
-import { initBoardMatrix } from './BoardMatrix';
 import './Board.css';
 
 const Board = () => {
@@ -8,14 +6,17 @@ const Board = () => {
   const [height, setHeight] = useState(800);
 
   const canvasRef = useRef(null);
+
   useEffect(() => {
-    initBoardMatrix();
-  }, []);
-  useDrawCanvas(canvasRef, width, height);
+    const ctx = canvasRef.current.getContext('2d');
+    drawBoard(ctx, width, height);
+  }, [width, height]);
 
   return (
     <div className='Board-Wrapper'>
-      <h1>chess Tactic</h1>
+      <h1 className='text-3xl font-bold underline'>
+        chess Tactic
+      </h1>
       <canvas
         ref={canvasRef}
         width={width}
@@ -24,5 +25,14 @@ const Board = () => {
     </div>
   );
 };
+
+function drawBoard(ctx, width, height) {
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      ctx.fillStyle = (i + j) % 2 === 0 ? 'white' : 'black';
+      ctx.fillRect(i * 100, j * 100, 100, 100);
+    }
+  }
+}
 
 export default Board;
